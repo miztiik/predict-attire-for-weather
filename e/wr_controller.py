@@ -20,7 +20,7 @@ if not DARK_SKY_API_KEY:
 class weather_report_controller: 
 
     def __init__(self):
-        self.get_weather_reportsoption_list = "exclude=currently,minutely,hourly,alerts&units=si"
+        self.option_list = "exclude=currently,minutely,hourly,alerts&units=si"
         """
         if not self.DARK_SKY_API_KEY:
             self.DARK_SKY_API_KEY = "0bdf7cf9b808dec29c52913e70c13f69"
@@ -29,7 +29,7 @@ class weather_report_controller:
         location = Nominatim().geocode(input_location, language='en_US')
         return location
    
-    def get_weather_reports(self, data, location):
+    def get_weather_reports(self, req_data, location):
         """
         Get the weather report for the given location and date
     
@@ -39,13 +39,12 @@ class weather_report_controller:
         :param type: An object of <class 'geopy.location.Location'>
      
         """
-        date_from = data['date_from']
-        date_to = data['date_to']
+        date_from = req_data.get('date_from')
+        date_to = req_data.get('date_to')
 
         d_from_date = datetime.strptime(date_from , '%Y-%m-%d')
         d_to_date = datetime.strptime(date_to , '%Y-%m-%d')
         delta = d_to_date - d_from_date
-        print(f"d_to_date:{d_to_date}")
 
         latitude = str(location.latitude)
         longitude = str(location.longitude)
@@ -54,7 +53,7 @@ class weather_report_controller:
         for i in range(delta.days+1):
             new_date = (d_from_date + timedelta(days=i)).strftime('%Y-%m-%d')
             search_date = new_date+"T00:00:00"
-            # dark_sky_url = f"https://api.darksky.net/forecast/{DARK_SKY_API_KEY}/{latitude},{longitude},{search_date}?{option_list}"
+
             dark_sky_url = (f"https://api.darksky.net/forecast/"
                             f"{DARK_SKY_API_KEY}/"
                             f"{latitude},"
@@ -62,36 +61,60 @@ class weather_report_controller:
                             f"{search_date}?"
                             f"{self.option_list}"
                             )
+
             print(dark_sky_url)
             response = requests.get( dark_sky_url )
-            json_res = response.json()
+            wr_data = response.json()
             report_date = (d_from_date + timedelta(days=i)).strftime('%Y-%m-%d %A')
-            if json_res['flags']['units'] == 'us':
+
+            # Check if it is for US/Rest of the sensible world and tack on appropriate units
+            if wr_data['flags']['units'] == 'us':
                 unit_type = '°F'
             else:
                 unit_type = '°C'
-            min_temperature = str(json_res['daily']['data'][0]['apparentTemperatureMin']) + unit_type
-            max_temperature = str(json_res['daily']['data'][0]['apparentTemperatureMax']) + unit_type
-            summary = json_res['daily']['data'][0]['summary']
-            icon = json_res['daily']['data'][0]['icon']
+
+            min_temperature = str(wr_data['daily']['data'][0]['apparentTemperatureMin']) + unit_type
+            max_temperature = str(wr_data['daily']['data'][0]['apparentTemperatureMax']) + unit_type
+            summary = wr_data['daily']['data'][0]['summary']
+            icon = wr_data['daily']['data'][0]['icon']
+            sunrise = str( datetime.fromtimestamp( wr_data['daily']['data'][0]['sunriseTime'] ).strftime('%H:%M') )
+            sunset = str( datetime.fromtimestamp( wr_data['daily']['data'][0]['sunsetTime'] ).strftime('%H:%M') )
+            humidity = wr_data['daily']['data'][0]['humidity']
+            humidity *= 100
+            humidity = "%.0f%%" % (humidity)
+
             precip_type = None
             precip_prob = None
             raining_chance = None
-            if'precipProbability' in json_res['daily']['data'][0] and 'precipType' in json_res['daily']['data'][0]:
-                precip_type = json_res['daily']['data'][0]['precipType']
-                precip_prob = json_res['daily']['data'][0]['precipProbability']
+
+            wind_speed = None
+            wind_bearing = None
+
+            if 'precipProbability' in wr_data['daily']['data'][0] and 'precipType' in wr_data['daily']['data'][0]:
+                precip_type = wr_data['daily']['data'][0]['precipType']
+                precip_prob = wr_data['daily']['data'][0]['precipProbability']
             if (precip_type == 'rain' and precip_prob != None):
                 precip_prob *= 100
                 raining_chance = "%.2f%%" % (precip_prob)
+            if 'windSpeed' in wr_data['daily']['data'][0] and wr_data['daily']['data'][0]['windSpeed'] > 0:
+                wind_speed = f"{wr_data['daily']['data'][0]['windSpeed']} Kph"
+                wind_bearing = wr_data['daily']['data'][0]['windBearing']
 
-            ind_wr = weather_report( report_date,
+            # Create a model from the weather report
+            # (date, max_temperature, min_temperature, summary, raining_chance, sunrise, sunset, wind_speed, wind_bearing, humidity, icon)
+            w_report = weather_report( report_date,
                                     max_temperature,
                                     min_temperature,
                                     summary,
                                     raining_chance,
+                                    sunrise,
+                                    sunset,
+                                    wind_speed,
+                                    wind_bearing,
+                                    humidity,
                                     icon
                                 )        
-
-            w_reports.append(ind_wr)
+            # Add the report for current date into the list of reports.
+            w_reports.append(w_report)
 
         return w_reports

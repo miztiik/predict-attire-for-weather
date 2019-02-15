@@ -1,83 +1,146 @@
 <html>
 <head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link id="bs-css" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
     <link id="bsdp-css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker3.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/js/bootstrap-datepicker.min.js"></script>
     <link id="weather-css" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/css/weather-icons.min.css" rel="stylesheet">    
   <title>
-      Mystique - Weather Forecast
+      Mystique's - Attire Predictor
   </title>
   <style>
-        @keyframes spinner {
+    .container {
+        border-radius: 5px;
+        background-color: #f2f2f2;
+        margin: auto;
+        padding: 20px;
+        /* text-align: left; */
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+    @keyframes spinner {
         to {transform: rotate(360deg);}
+    }
+
+        input[type=text],
+        select {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 24px;
+        }
+        input[type=text]:hover{
+             /* background: blue; 
+            box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+            box-shadow: 1px 1px 1px 0 #ccc, 0 6px 20px 0 #ccc;
+            border: 1px solid #5cb8fb;
+            border-radius: 5px;
+        }
+        .div-page {
+            border-radius: 5px;
+            background-color: #f2f2f2;
+            /* width: 40%; */
+            margin: auto;
+            padding: 10px;
+        }
+
+        .div-form {
+            border-radius: 5px;
+            background-color: #f2f2f2;
+            margin: auto;
+            text-align: center;
+        }
+
+        .div-obj-holder {
+            border-radius: 5px;
+            background-color: #f2f2f2;
+            width: 40%;
+            margin: auto;
+            padding: 10px;
+            height: 200px;
+        }
+
+        label {
+            font-size: 25px;
+            color: #666;
+            text-align: left;
+            width: 100%;
+        }
+        .input-group-addon{
+            font-size: 25px;
+            background-color: #f2f2f2;
+            border: 0px;
+            padding: 0px;
         }
         
-        .spinner:before {
-        content: '';
-        box-sizing: border-box;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 30px;
-        height: 30px;
-        margin-top: -15px;
-        margin-left: -15px;
-        border-radius: 50%;
-        border: 1px solid #ccc;
-        border-top-color: #07d;
-        animation: spinner .6s linear infinite;
+        .get-weather-button:hover {
+            background-color: #45a049;
         }
-  </style>
+        
+        .get-weather-button {
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }   
+       
+        
+        body {
+            font-family: Helvetica;
+            text-align: center;
+            background-color: #000;
+        }
+    </style>
 </head>
 <body>
+    <br /><br />
     <div class="container">
-        <div class="row">
-                    <div class="col col-lg-12 col-sm-12">
-                        <h1>Mystique Weather Forecast Tool</h1>
-                    </div>
-                    </div>
-        <div class="row">
-            <div class="col-md-6">
-                <label style="width: 100%;">Date range
-                        <div id="ezw-dateinput">
-                                <div class="input-daterange input-group" id="datepicker">
-                                            <input type="text" class="input-sm form-control" name="date_from" id="date_from" />
-                                            <span class="input-group-addon">to</span>
-                                            <input type="text" class="input-sm form-control" name="date_to" id="date_to" />
-                                </div>
-                        </div>  
-                </label>
+
+        <div class="div-page">
+            <div class="col col-lg-12 col-sm-12">
+                    <h1>Mystique's Attire Predictor</h1>
+            </div>
+
+            <label style="width: 100%;">Date range
+                    <div id="wr-dateinput">
+                            <div class="input-daterange input-group" id="datepicker">
+                                <input type="text"  name="date_from" id="date_from" />
+                                <span class="input-group-addon">to</span>
+                                <input type="text"  name="date_to" id="date_to" />
+                            </div>
+                    </div>  
+            </label>
+            <label style="width: 100%;">Your Location
+                <input type="text" id="location" name="location"required>
+            </label>
+            <button class="get-weather-button" id='gtw'><span>Get the weather </span></button>
+            <div class="row">
+                <div class="col-md-12" id="result"></div>
             </div>
         </div>
-
-        <div class="row">
-            <div class="col-md-6">
-                <label style="width: 100%;">Location
-                    <input type="text" class="input-sm form-control" id="location" name="location" required>
-                </label>
-            </div> 
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <button type="button" class="btn btn-primary" id="gtw">Get the weather</button>
-            </div>        
-        </div>
-        <div class="row">
-                <div class="col-md-12">
-                    &nbsp;                    
-                </div>        
-        </div> 
-        <div class="row">
-                <div class="col-md-12" id="result">                    
-                </div>        
-        </div>
     </div>
+    <br />
+
+
+
+
 
     <script>
         $(document).ready(function () {
+            //Some Defaults for quick testing
+            to_day = new Date().toISOString().match(/(\d{4}\-\d{2}\-\d{2})/);
+            $('input[name=date_from]').val(to_day[1]);
+            document.getElementById('date_to').defaultValue = to_day[1];
+            document.getElementById("location").defaultValue = "Utrecht";
 
-            $('#ezw-dateinput .input-daterange').datepicker({
+            $('#wr-dateinput .input-daterange').datepicker({
                 format: "yyyy-mm-dd",
                 todayHighlight: true
              });

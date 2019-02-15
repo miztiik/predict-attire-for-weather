@@ -12,6 +12,9 @@ def index():
 
 @app.route('/get_weather_report', methods=['POST', 'GET'])
 def get_weather_report():
+    """
+    Get the weather report from the controller and render them using the models.
+    """
     if request.method == 'POST': 
        data = request.json
        input_location = data['location']
@@ -21,8 +24,8 @@ def get_weather_report():
        geo_location = w_report.getLocation(input_location)
        if geo_location == None:
            wr_address = "Unknown location"
-           report_template = render_template('reports.html', weather_address = wr_address)
-           return report_template 
+           wr_template = render_template('reports.html', weather_address = wr_address)
+           return wr_template 
        
        wr_address = geo_location.address       
        w_reports = w_report.get_weather_reports(data, geo_location)   
