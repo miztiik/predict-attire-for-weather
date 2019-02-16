@@ -15,7 +15,7 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-3">
-                        <b>Sunrise:</b> <img src="/static/images/sunrise.png" height="20" width="20" /> {{ report.sunrise }}<br/>
+                        <b>Sunrise:</b> <img src="/static/images/sunrise.png" height="20" width="20" style="vertical-align: baseline;" /> {{ report.sunrise }}<br/>
                         <b>Max Tempertaure:</b> {{ report.max_temperature }}<br/>
                         {% if report.raining_chance  %}
                             <b>Chance of rain:</b> {{ report.raining_chance }}<br/>
@@ -23,7 +23,7 @@
                         <b>Humidity:</b> {{ report.humidity }}<br/>
                     </div>
                     <div class="col-xs-3">
-                        <b>Sunset:</b> <img src="/static/images/sunset.png" height="20" width="20" style="vertical-align: 'baseline';"/> {{ report.sunset }}<br/>
+                        <b>Sunset:</b> <img src="/static/images/sunset.png" height="20" width="20" style="vertical-align: baseline;" /> {{ report.sunset }}<br/>
                         <b>Min Tempertaure:</b> {{ report.min_temperature }}<br/>
                         {% if report.wind_speed  %}
                             <b>Wind:</b> {{ report.wind_speed }}
