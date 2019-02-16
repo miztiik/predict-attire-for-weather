@@ -11,7 +11,7 @@ __author__ = 'Mystique'
 from wr_model import weather_report
 from geopy.geocoders import Nominatim
 from datetime import datetime,timedelta
-import requests, os
+import requests, os, pytz
 
 DARK_SKY_API_KEY = os.environ.get('DARK_SKY_KEY')
 if not DARK_SKY_API_KEY:
@@ -38,7 +38,7 @@ class weather_report_controller:
         """
         location = Nominatim().geocode(input_location, language='en_US')
         return location
-   
+
     def predict_attire(self, w_r_data, sensitivity_factors):
 
         # Set some defaults. All numbers in degree celsius
@@ -56,35 +56,37 @@ class weather_report_controller:
 
         if w_r_data.get('raining_chance'):
             attire['umbrella'] = True
-            attire['umbrella_emoji'] = f"\U00002614"
+            attire['umbrella_emoji'] = f"An ☔ or Rain Jacket, It will 🌧️"
 
         if w_r_data.get('temp_min') >= HOT:
-            attire['clothing'] = f"Minimal Outdoor exposure. Stay \U0001F3D8, Stay warm \U0001F379"
+            attire['clothing'] = f"Minimal Outdoor exposure. Too Hot 🌡️☀️. Stay indoors 🏠🏡 or Stay Cool 🏊🏖️🍹🍨"
             attire['stay_indoor'] = True
         if w_r_data.get('temp_max') >= HOT:
-            attire['clothing'] = f"\U0001F3BD Shorts \U0001F576 \U0001F3A9 and \U0001F45F"
+            attire['clothing'] = f"T-Shirts🎽 Shorts\U0001FA73 Sun Glassess🕶 Hat👒 and Shoes👟"
             attire['top_hat'] = True
             attire['sunglasses'] = True
         elif w_r_data.get('temp_max') <= HOT and w_r_data.get('temp_max') >= WARM:
-            attire['clothing'] = f"\N{t-shirt} Shorts \U0001F576 and \U0001F45F"
+            attire['clothing'] = f"T-Shirts🎽 Shorts\U0001FA73 Sun Glassess🕶 Hat👒 and Shoes👟, Maybe 🍺"
             attire['sunglasses'] = True
         elif w_r_data.get('temp_max') <= WARM and w_r_data.get('temp_max') >= COOL:
-            attire['clothing'] = f"\N{t-shirt} \N{jeans} Light Jacket and \U0001F9E3"
+            attire['clothing'] = f"Shirts👕 Long Pants👖 Summer Jacket\U0001F9E5 and \U0001F9E3, Maybe 🚴"
             attire['scarves'] = True
         elif w_r_data.get('temp_max') <= COOL and w_r_data.get('temp_max') >= COLD:
-            attire['clothing'] = f"\N{t-shirt} \N{jeans} Light Jacket \U0001F9E4 \U0001F9E3"
+            attire['clothing'] = f"Shirts👕 Long Pants👖 Light Jacket\U0001F9E5 Gloves\U0001F9E4 Scarf\U0001F9E3"
             attire['coat'] = True
             attire['gloves'] = True
             attire['scarves'] = True
         elif w_r_data.get('temp_max') <= COLD and w_r_data.get('temp_max') >= FREEZING:
-            attire['clothing'] = f"\N{t-shirt} \N{jeans} Winter Jacket \U0001F9E4 \U0001F9E3 and \U0001F462"
+            attire['clothing'] = f"Long sleeved shirt👔👕 Long Pants👖 Winter Jacket\U0001F9E5 Gloves\U0001F9E4 Scarf\U0001F9E3 and Boots👢"
             attire['coat'] = True
             attire['gloves'] = True
             attire['scarves'] = True
             attire['boots'] = True
         elif w_r_data.get('temp_max') <= FREEZING:
-            attire['clothing'] = f"Minimal Outdoor exposure. Stay \U0001F3D8, Stay warm \U0001F525 \U00002615"
+            attire['clothing'] = f"Minimal Outdoor exposure 🌡️❄️⛄. Stay indoors 🏠🏡\U0001F525🛌, Stay warm ☕"
             attire['stay_indoor'] = True
+        else:
+            attire['clothing'] = f"⚡❕❔"
 
         return attire
 
@@ -140,10 +142,13 @@ class weather_report_controller:
 
             sunrise = None
             sunset = None
+            tz = pytz.timezone(wr_data.get('timezone'))
             if wr_data['daily']['data'][0].get('sunriseTime'):
-                sunrise = str( datetime.fromtimestamp( wr_data['daily']['data'][0].get('sunriseTime') ).strftime('%H:%M') )
+                sunrise = datetime.utcfromtimestamp( wr_data['daily']['data'][0].get('sunriseTime') )
+                sunrise = str( pytz.utc.localize(sunrise).astimezone(tz).strftime('%H:%M') )
             if wr_data['daily']['data'][0].get('sunsetTime'):
-                sunset = str( datetime.fromtimestamp( wr_data['daily']['data'][0].get('sunsetTime') ).strftime('%H:%M') )
+                sunset = datetime.utcfromtimestamp( wr_data['daily']['data'][0].get('sunsetTime') )
+                sunset = str( pytz.utc.localize(sunset).astimezone(tz).strftime('%H:%M') )
             humidity = wr_data['daily']['data'][0].get('humidity')
             humidity *= 100
             humidity = "%.0f%%" % (humidity)
@@ -161,8 +166,12 @@ class weather_report_controller:
             wind_speed = None
             wind_bearing = None
             if 'windSpeed' in wr_data['daily']['data'][0] and wr_data['daily']['data'][0].get('windSpeed') > 0:
-                wind_speed = f"{wr_data['daily']['data'][0].get('windSpeed')} Kph"
-                wind_bearing = wr_data['daily']['data'][0].get('windBearing')
+                # WindSpeed is in meters per second, converting to Kmph
+                wind_speed = round( (int( wr_data['daily']['data'][0].get('windSpeed') ) * 3.6) , 2)
+                wind_speed = f"{wind_speed} Kmph"
+                # It is the direction the wind is coming from, so the arrow should be point opposite side, 
+                # or use a inverted image always
+                wind_bearing = wr_data['daily']['data'][0].get('windBearing') + 180
 
             icon = wr_data['daily']['data'][0].get('icon')
             if wr_data['daily']['data'][0].get('icon') == "clear-day":

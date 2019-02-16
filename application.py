@@ -3,7 +3,8 @@ from flask import Flask, render_template, request, redirect, url_for, request
 from flask_cors import CORS
 from wr_controller import weather_report_controller
 
-app = Flask(__name__, instance_relative_config=True)
+# app = Flask(__name__, instance_relative_config=True)
+app = Flask(__name__, static_url_path='/static')
 CORS(app)
 
 @app.route("/")
