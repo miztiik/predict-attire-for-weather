@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 class weather_report():
-
     def __init__(self, date, max_temperature,
                 min_temperature, summary, raining_chance,
                 sunrise, sunset, wind_speed, wind_bearing, humidity,
-                icon):
+                icon,
+                predicted_attire
+                ):
         self.date = date
         self.max_temperature = max_temperature
         self.min_temperature = min_temperature
@@ -16,3 +17,4 @@ class weather_report():
         self.wind_bearing = wind_bearing
         self.humidity = humidity
         self.icon = icon
+        self.attire = predicted_attire

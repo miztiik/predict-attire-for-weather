@@ -21,7 +21,7 @@ def get_weather_report():
 
        w_report = weather_report_controller()
 
-       geo_location = w_report.getLocation(input_location)
+       geo_location = w_report.get_location(input_location)
        if geo_location == None:
            wr_address = "Unknown location"
            wr_template = render_template('reports.html', weather_address = wr_address)

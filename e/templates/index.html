@@ -19,84 +19,101 @@
     }
     @keyframes spinner {
         to {transform: rotate(360deg);}
+        }
+    .spinner:before {
+        content: '';
+        box-sizing: border-box;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 30px;
+        height: 30px;
+        margin-top: -1px;
+        margin-left: -10px;
+        border-radius: 50%;
+        border: 1px solid #ccc;
+        border-top-color: #07d;
+        animation: spinner .6s linear infinite;
     }
-
-        input[type=text],
-        select {
-            width: 100%;
-            padding: 12px 20px;
-            margin: 8px 0;
-            display: inline-block;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-            font-size: 24px;
-        }
-        input[type=text]:hover{
-             /* background: blue; 
-            box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
-            box-shadow: 1px 1px 1px 0 #ccc, 0 6px 20px 0 #ccc;
-            border: 1px solid #5cb8fb;
-            border-radius: 5px;
-        }
-        .div-page {
-            border-radius: 5px;
-            background-color: #f2f2f2;
-            /* width: 40%; */
-            margin: auto;
-            padding: 10px;
-        }
-
-        .div-form {
-            border-radius: 5px;
-            background-color: #f2f2f2;
-            margin: auto;
-            text-align: center;
-        }
-
-        .div-obj-holder {
-            border-radius: 5px;
-            background-color: #f2f2f2;
-            width: 40%;
-            margin: auto;
-            padding: 10px;
-            height: 200px;
-        }
-
-        label {
-            font-size: 25px;
-            color: #666;
-            text-align: left;
-            width: 100%;
-        }
-        .input-group-addon{
-            font-size: 25px;
-            background-color: #f2f2f2;
-            border: 0px;
-            padding: 0px;
-        }
-        
-        .get-weather-button:hover {
-            background-color: #45a049;
-        }
-        
-        .get-weather-button {
-            width: 100%;
-            background-color: #4CAF50;
-            color: white;
-            padding: 14px 20px;
-            margin: 8px 0;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }   
-       
-        
-        body {
-            font-family: Helvetica;
-            text-align: center;
-            background-color: #000;
-        }
+    input[type=text],
+    select {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 24px;
+    }
+    input[type=text]:hover{
+         /* background: blue; 
+        box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); */
+        box-shadow: 1px 1px 1px 0 #ccc, 0 6px 20px 0 #ccc;
+        border: 1px solid #5cb8fb;
+        border-radius: 5px;
+    }
+    .div-page {
+        border-radius: 5px;
+        background-color: #f2f2f2;
+        /* width: 40%; */
+        margin: auto;
+        padding: 10px;
+    }
+    .div-form {
+        border-radius: 5px;
+        background-color: #f2f2f2;
+        margin: auto;
+        text-align: center;
+    }
+    .div-obj-holder {
+        border-radius: 5px;
+        background-color: #f2f2f2;
+        width: 40%;
+        margin: auto;
+        padding: 10px;
+        height: 200px;
+    }
+    label {
+        font-size: 25px;
+        color: #666;
+        text-align: left;
+        width: 100%;
+    }
+    p{
+        font-family: Lato;
+        font-size: 32px;
+        font-weight: 300;
+        text-align: left;
+        margin-top: 20px;
+        margin-right: 5px;
+        margin-bottom: 30px;
+        margin-left: 0px;
+    }
+    .input-group-addon{
+        font-size: 25px;
+        background-color: #f2f2f2;
+        border: 0px;
+        padding: 0px;
+    }
+    .get-weather-button:hover {
+        background-color: #45a049;
+    }
+    .get-weather-button {
+        width: 100%;
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    body {
+        font-family: Helvetica;
+        text-align: center;
+        background-color: #000;
+    }
     </style>
 </head>
 <body>

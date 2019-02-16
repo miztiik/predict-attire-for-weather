@@ -5,14 +5,18 @@
 </div>
 {% for report in weather_reports %}
     <div class="row">
-        <div class="col-md-6" style="width: 100%;text-align: left;">
-                <div class="well">
+        <div class="col-md-12" style="width: 100%;text-align: left;">
+            <div class="well">
                 <div class="row">
-                    <div class="col-xs-6">
+                    <div class="col-xs-12">
+                        <p>{{ report.summary }}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-3">
                         <b>Date:</b> {{ report.date }}<br/>
                         <b>Max Tempertaure:</b> {{ report.max_temperature }}<br/>
                         <b>Min Tempertaure:</b> {{ report.min_temperature }}<br/>
-                        <b>Summary:</b> {{ report.summary }}<br/>
                         {% if report.raining_chance  %}
                             <b>Chance of rain:</b> {{ report.raining_chance }}<br/>
                         {% endif %}
@@ -50,8 +54,14 @@
                         <i class="wi wi-night-partly-cloudy"></i>
                     {% endif %} </h1>
                     </div>
+                    <div class="col-xs-3">
+                        <b>Attire:</b> {{ report.attire.clothing }}<br/>
+                        {% if report.raining_chance  %}
+                            <b>Bring:</b> {{ report.attire.umbrella_emoji }}<br/>
+                        {% endif %}
+                    </div>
                 </div>  
-                </div>
+            </div>
         </div>
     </div>
 {% endfor %}
