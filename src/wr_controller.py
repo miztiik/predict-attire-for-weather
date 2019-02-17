@@ -25,10 +25,6 @@ class weather_report_controller:
 
     def __init__(self):
         self.option_list = "exclude=currently,minutely,hourly,alerts&units=si"
-        """
-        if not self.DARK_SKY_API_KEY:
-            self.DARK_SKY_API_KEY = "0bdf7cf9b808dec29c52913e70c13f69"
-        """
     
     def get_location(self, input_location):
         """
