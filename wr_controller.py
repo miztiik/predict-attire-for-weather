@@ -126,8 +126,11 @@ class weather_report_controller:
                 response = requests.get( dark_sky_url )
             except Exception as e:
                 return
+            
             wr_data = response.json()
-            report_date = (d_from_date + timedelta(days=i)).strftime('%Y-%m-%d %A')
+            # Lets break, if we not able to get any data
+            if not wr_data.get('daily') or not wr_data.get('daily').get('data'):
+                return
 
             # Check if it is for US/Rest of the sensible world and tack on appropriate units
             if wr_data['flags']['units'] == 'us':
