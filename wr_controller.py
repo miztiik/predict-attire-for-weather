@@ -11,7 +11,11 @@ __author__ = 'Mystique'
 from wr_model import weather_report
 from geopy.geocoders import Nominatim
 from datetime import datetime,timedelta
-import requests, os, pytz
+import requests, os, pytz, logging
+
+# Initialize Logger
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
 DARK_SKY_API_KEY = os.environ.get('DARK_SKY_KEY')
 if not DARK_SKY_API_KEY:
@@ -121,12 +125,12 @@ class weather_report_controller:
                             f"{search_date}?"
                             f"{self.option_list}"
                             )
-            print(dark_sky_url)
+            logger.info(f"DarkSky Request Url: {dark_sky_url}")
             try:
                 response = requests.get( dark_sky_url )
             except Exception as e:
                 return
-            
+
             wr_data = response.json()
             # Lets break, if we not able to get any data
             if not wr_data.get('daily') or not wr_data.get('daily').get('data'):
