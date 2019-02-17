@@ -27,23 +27,6 @@ class weather_report_controller:
             logger.error(f"Unable to read Dark Sky API Configuration")
             return
                 
-    def is_json_valid(self, data) -> bool:
-        """
-        This function checks if the given file is a valid json
-
-        :param data: The JSON data to be checked
-        :param type: dict
-
-        :return bool: Returns a boolean
-        :rtype: bool
-        """
-        try:
-            json.loads( data )
-            return True
-        except ValueError as error:
-            logger.error(f"Invalid JSON data")
-            return False
-
     def read_from_file(self, f):
         """
         Reads the given file handle and returns the data.
