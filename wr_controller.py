@@ -166,7 +166,7 @@ class weather_report_controller:
             wind_bearing = None
             if 'windSpeed' in wr_data['daily']['data'][0] and wr_data['daily']['data'][0].get('windSpeed') > 0:
                 # WindSpeed is in meters per second, converting to Kmph
-                wind_speed = round( (int( wr_data['daily']['data'][0].get('windSpeed') ) * 3.6) , 2)
+                wind_speed = round( ( wr_data['daily']['data'][0].get('windSpeed') * 3.6) , 2)
                 wind_speed = f"{wind_speed} Kmph"
                 # It is the direction the wind is coming from, so the arrow should be point opposite side, 
                 # or use a inverted image always
