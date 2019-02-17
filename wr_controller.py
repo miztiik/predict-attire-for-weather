@@ -72,10 +72,10 @@ class weather_report_controller:
             attire['clothing'] = f"T-Shirts🎽 Shorts\U0001FA73 Sun Glassess🕶 Hat👒 and Shoes👟, Maybe 🍺"
             attire['sunglasses'] = True
         elif w_r_data.get('temp_max') <= WARM and w_r_data.get('temp_max') >= COOL:
-            attire['clothing'] = f"Shirts👕 Long Pants👖 Summer Jacket\U0001F9E5 and \U0001F9E3, Maybe 🚴"
+            attire['clothing'] = f"Shirts👕 Long Pants👖 Summer Jacket\U0001F9E5 Scarf\U0001F9E3 and Shoes👟, Maybe 🚴"
             attire['scarves'] = True
         elif w_r_data.get('temp_max') <= COOL and w_r_data.get('temp_max') >= COLD:
-            attire['clothing'] = f"Shirts👕 Long Pants👖 Light Jacket\U0001F9E5 Gloves\U0001F9E4 Scarf\U0001F9E3"
+            attire['clothing'] = f"Shirts👕 Long Pants👖 Light Jacket\U0001F9E5 Gloves\U0001F9E4 Scarf\U0001F9E3 and Boots👢"
             attire['coat'] = True
             attire['gloves'] = True
             attire['scarves'] = True
