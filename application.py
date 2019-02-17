@@ -29,24 +29,27 @@ def get_weather_report():
     """
     Get the weather report from the controller and render them using the models.
     """
-    if request.method == 'POST': 
-       data = request.json
-       input_location = data['location']
-
-       w_report = weather_report_controller()
-
-       geo_location = w_report.get_location(input_location)
-       if geo_location == None:
-           wr_address = "Unknown location"
-           wr_template = render_template('reports.html', weather_address = wr_address)
-           return wr_template 
+    if request.method == 'POST':
+        data = request.json
+        input_location = data['location']
+        w_report = weather_report_controller()
+        
+        geo_location = w_report.get_location(input_location)
+        if geo_location == None:
+            wr_address = "Unknown location"
+            wr_template = render_template('reports.html', weather_address = wr_address)
+            return wr_template 
        
-       wr_address = geo_location.address       
-       w_reports = w_report.get_weather_reports(data, geo_location)   
+        wr_address = geo_location.address
+        w_reports = w_report.get_weather_reports(data, geo_location)
 
-       wr_template = render_template('reports.html', weather_address = wr_address, weather_reports = w_reports)
+        # Setup crude error handling.
+        if w_reports == None:
+            w_reports ={'w_report':{'summary':"Unable to fetch weather data from API Service. Check API Key/Logs"}}
+
+        wr_template = render_template('reports.html', weather_address = wr_address, weather_reports = w_reports)
 
     return wr_template  
 
 if __name__ == '__main__':
-    app.run(debug=False,host='0.0.0.0')
+    app.run( debug = False,host = '0.0.0.0', port = 80 )
