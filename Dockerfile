@@ -23,5 +23,7 @@ WORKDIR /var/predict-attire-for-weather
 
 # Set the entry point to start the gunicorn applicaiton server
 # Sample cmd - `gunicorn --bind 0.0.0.0:80 wsgi:application --access-logfile - --error-logfile -`
+# Sample cmd with all stdio captured - `gunicorn --bind 0.0.0.0:8080 wsgi:application --access-logfile - --error-logfile - --capture-output --enable-stdio-inheritance`
 EXPOSE 80
-ENTRYPOINT ["gunicorn", "--bind", "0.0.0.0:80", "wsgi:application", "--access-logfile", "-", "--error-logfile", "-"]
+# ENTRYPOINT ["gunicorn", "--bind", "0.0.0.0:80", "wsgi:application", "--access-logfile", "-", "--error-logfile", "-"]
+ENTRYPOINT ["gunicorn", "--bind", "0.0.0.0:80", "wsgi:application", "--access-logfile", "-", "--error-logfile", "-","--capture-output", "--enable-stdio-inheritance"]
