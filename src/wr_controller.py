@@ -204,7 +204,7 @@ class weather_report_controller:
                                         humidity,
                                         icon,
                                         predicted_attire
-                                    )        
+                                    )
                 # Add the report for current date into the list of reports.
                 w_reports.append(w_report)
             except Exception as err:
