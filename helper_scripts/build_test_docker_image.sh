@@ -21,4 +21,7 @@ docker build --tag="predict-attire-for-weather" .
 docker run -dti -p 80:80 --name attire_recommender predict-attire-for-weather
 
 ### Clean Up
-docker stop attire_recommender;docker rm attire_recommender; docker rmi predict-attire-for-weather
+docker stop attire_recommender;docker rm attire_recommender; docker rmi mystique/predict-attire-for-weather
+
+### Run Image from DockerHub
+docker run -dti -p 80:80 --name attire_recommender mystique/predict-attire-for-weather
