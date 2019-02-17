@@ -139,72 +139,76 @@ class weather_report_controller:
                 logger.error(f"Unable to fetch data from DarkSky. Response: {wr_data}")
                 return
 
-            # Check if it is for US/Rest of the sensible world and tack on appropriate units
-            if wr_data['flags']['units'] == 'us':
-                unit_type = '°F'
-            else:
-                unit_type = '°C'
+            try:
+                # Check if it is for US/Rest of the sensible world and tack on appropriate units
+                if wr_data['flags']['units'] == 'us':
+                    unit_type = '°F'
+                else:
+                    unit_type = '°C'
 
-            w_r_data['temp_min'] = wr_data['daily']['data'][0].get('apparentTemperatureMin')
-            w_r_data['temp_max'] = wr_data['daily']['data'][0].get('apparentTemperatureMax')
-            summary = wr_data['daily']['data'][0].get('summary')
+                w_r_data['temp_min'] = wr_data['daily']['data'][0].get('apparentTemperatureMin')
+                w_r_data['temp_max'] = wr_data['daily']['data'][0].get('apparentTemperatureMax')
+                summary = wr_data['daily']['data'][0].get('summary')
 
-            sunrise = None
-            sunset = None
-            tz = pytz.timezone(wr_data.get('timezone'))
-            if wr_data['daily']['data'][0].get('sunriseTime'):
-                sunrise = datetime.utcfromtimestamp( wr_data['daily']['data'][0].get('sunriseTime') )
-                sunrise = str( pytz.utc.localize(sunrise).astimezone(tz).strftime('%H:%M') )
-            if wr_data['daily']['data'][0].get('sunsetTime'):
-                sunset = datetime.utcfromtimestamp( wr_data['daily']['data'][0].get('sunsetTime') )
-                sunset = str( pytz.utc.localize(sunset).astimezone(tz).strftime('%H:%M') )
-            humidity = wr_data['daily']['data'][0].get('humidity')
-            humidity *= 100
-            humidity = "%.0f%%" % (humidity)
+                sunrise = None
+                sunset = None
+                tz = pytz.timezone(wr_data.get('timezone'))
+                if wr_data['daily']['data'][0].get('sunriseTime'):
+                    sunrise = datetime.utcfromtimestamp( wr_data['daily']['data'][0].get('sunriseTime') )
+                    sunrise = str( pytz.utc.localize(sunrise).astimezone(tz).strftime('%H:%M') )
+                if wr_data['daily']['data'][0].get('sunsetTime'):
+                    sunset = datetime.utcfromtimestamp( wr_data['daily']['data'][0].get('sunsetTime') )
+                    sunset = str( pytz.utc.localize(sunset).astimezone(tz).strftime('%H:%M') )
+                humidity = wr_data['daily']['data'][0].get('humidity')
+                humidity *= 100
+                humidity = "%.0f%%" % (humidity)
 
-            precip_type = None
-            precip_prob = None
-            w_r_data['raining_chance'] = None
-            if 'precipProbability' in wr_data['daily']['data'][0] and 'precipType' in wr_data['daily']['data'][0]:
-                precip_type = wr_data['daily']['data'][0].get('precipType')
-                precip_prob = wr_data['daily']['data'][0].get('precipProbability')
-            if (precip_type == 'rain' and precip_prob != None):
-                precip_prob *= 100
-                w_r_data['raining_chance'] = "%.2f%%" % (precip_prob)
+                precip_type = None
+                precip_prob = None
+                w_r_data['raining_chance'] = None
+                if 'precipProbability' in wr_data['daily']['data'][0] and 'precipType' in wr_data['daily']['data'][0]:
+                    precip_type = wr_data['daily']['data'][0].get('precipType')
+                    precip_prob = wr_data['daily']['data'][0].get('precipProbability')
+                if (precip_type == 'rain' and precip_prob != None):
+                    precip_prob *= 100
+                    w_r_data['raining_chance'] = "%.2f%%" % (precip_prob)
 
-            wind_speed = None
-            wind_bearing = None
-            if 'windSpeed' in wr_data['daily']['data'][0] and wr_data['daily']['data'][0].get('windSpeed') > 0:
-                # WindSpeed is in meters per second, converting to Kmph
-                wind_speed = round( ( wr_data['daily']['data'][0].get('windSpeed') * 3.6) , 2)
-                wind_speed = f"{wind_speed} Kmph"
-                # It is the direction the wind is coming from, so the arrow should be point opposite side, 
-                # or use a inverted image always
-                wind_bearing = wr_data['daily']['data'][0].get('windBearing') + 180
+                wind_speed = None
+                wind_bearing = None
+                if 'windSpeed' in wr_data['daily']['data'][0] and wr_data['daily']['data'][0].get('windSpeed') > 0:
+                    # WindSpeed is in meters per second, converting to Kmph
+                    wind_speed = round( ( wr_data['daily']['data'][0].get('windSpeed') * 3.6) , 2)
+                    wind_speed = f"{wind_speed} Kmph"
+                    # It is the direction the wind is coming from, so the arrow should be point opposite side, 
+                    # or use a inverted image always
+                    wind_bearing = wr_data['daily']['data'][0].get('windBearing') + 180
 
-            icon = wr_data['daily']['data'][0].get('icon')
-            if wr_data['daily']['data'][0].get('icon') == "clear-day":
-                w_r_data['is_sunny'] = True
+                icon = wr_data['daily']['data'][0].get('icon')
+                if wr_data['daily']['data'][0].get('icon') == "clear-day":
+                    w_r_data['is_sunny'] = True
 
-            # Lets get the attire predcition
-            predicted_attire = self.predict_attire(w_r_data, None)
+                # Lets get the attire predcition
+                predicted_attire = self.predict_attire(w_r_data, None)
 
-            # Create a model from the weather report
-            # (date, temp_max, temp_min, summary, raining_chance, sunrise, sunset, wind_speed, wind_bearing, humidity, icon, predicted_attire)
-            w_report = weather_report( report_date,
-                                    str(w_r_data['temp_max']) + unit_type,
-                                    str(w_r_data['temp_min']) + unit_type,
-                                    summary,
-                                    w_r_data['raining_chance'],
-                                    sunrise,
-                                    sunset,
-                                    wind_speed,
-                                    wind_bearing,
-                                    humidity,
-                                    icon,
-                                    predicted_attire
-                                )        
-            # Add the report for current date into the list of reports.
-            w_reports.append(w_report)
+                # Create a model from the weather report
+                # (date, temp_max, temp_min, summary, raining_chance, sunrise, sunset, wind_speed, wind_bearing, humidity, icon, predicted_attire)
+                w_report = weather_report( report_date,
+                                        str(w_r_data['temp_max']) + unit_type,
+                                        str(w_r_data['temp_min']) + unit_type,
+                                        summary,
+                                        w_r_data['raining_chance'],
+                                        sunrise,
+                                        sunset,
+                                        wind_speed,
+                                        wind_bearing,
+                                        humidity,
+                                        icon,
+                                        predicted_attire
+                                    )        
+                # Add the report for current date into the list of reports.
+                w_reports.append(w_report)
+            except Exception as err:
+                logger.error(f"Response data was malformed. Error: str{err}")
+                return w_reports
 
         return w_reports
