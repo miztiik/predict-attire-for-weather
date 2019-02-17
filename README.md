@@ -37,7 +37,7 @@ We will use the Dark Sky Weather API to get our weather data. Based on that we w
     ![Predict Attire for Weather](https://raw.githubusercontent.com/miztiik/predict-attire-for-weather/master/images/predict-attire-for-weather.png)
 
 ## Support
-Please open a [GitHub issue](https://miztiik/predict-attire-for-weather/issues/new).
+Please open a [GitHub issue](https://github.com/miztiik/predict-attire-for-weather/issues/new).
 
 ## Feedback
-Please open a [GitHub issue](https://miztiik/predict-attire-for-weather/issues/new). I do encourage you to contribute your changes and send me pull request.
+Please open a [GitHub issue](https://github.com/miztiik/predict-attire-for-weather/issues/new). I do encourage you to contribute your changes and send me pull request.
