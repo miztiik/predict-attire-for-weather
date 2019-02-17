@@ -117,6 +117,7 @@ class weather_report_controller:
             w_r_data = { 'temp_min':0,'temp_max':0, 'is_sunny':False, 'will_rain':False }
             new_date = (d_from_date + timedelta(days=i)).strftime('%Y-%m-%d')
             search_date = new_date+"T00:00:00"
+            report_date = (d_from_date + timedelta(days=i)).strftime('%Y-%m-%d %A')
 
             dark_sky_url = (f"https://api.darksky.net/forecast/"
                             f"{DARK_SKY_API_KEY}/"
