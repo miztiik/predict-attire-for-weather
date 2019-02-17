@@ -129,12 +129,14 @@ class weather_report_controller:
             logger.info(f"DarkSky Request Url: {dark_sky_url}")
             try:
                 response = requests.get( dark_sky_url )
-            except Exception as e:
+            except Exception as err:
+                logger.error(f"Unable to fetch data from DarkSky. Error: str{err}")
                 return
 
             wr_data = response.json()
             # Lets break, if we not able to get any data
             if not wr_data.get('daily') or not wr_data.get('daily').get('data'):
+                logger.error(f"Unable to fetch data from DarkSky. Response: {wr_data}")
                 return
 
             # Check if it is for US/Rest of the sensible world and tack on appropriate units
