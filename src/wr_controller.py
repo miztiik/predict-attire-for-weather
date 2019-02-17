@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 __author__ = 'Mystique'
 """
-.. module: Export Logs from cloudwatch & Store in given S3 Bucket
+.. module: Predict Attire based on weather
     :platform: AWS
     :copyright: (c) 2019 Mystique.,
 .. moduleauthor:: Mystique
