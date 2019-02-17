@@ -57,7 +57,7 @@ class weather_report_controller:
         FREEZING = int(COLD - 1*(COOL - COLD))
 
         attire = {'clothing':'', 'activity':'', 'top_hat':False, 'boots':False, 'coat':False, 'gloves':False, 'scarves':False, 'sunglasses':False, 'umbrella':False, 'stay_indoor':False }
-
+        emoji_dict = {'sunrise':🌅, 'sunset':🌇, 't-shirts':🎽, 'shirts':👕,'neck-tie':👔,'shorts':'\U0001FA73', 'jeans':👖, 'boots':👢}
         if w_r_data.get('raining_chance'):
             attire['umbrella'] = True
             attire['umbrella_emoji'] = f"An ☔ or Rain Jacket, It will 🌧️"
