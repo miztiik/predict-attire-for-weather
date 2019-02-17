@@ -11,21 +11,58 @@ __author__ = 'Mystique'
 from wr_model import weather_report
 from geopy.geocoders import Nominatim
 from datetime import datetime,timedelta
-import requests, os, pytz, logging
+import requests, json, os, pytz, logging
 
 # Initialize Logger
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-DARK_SKY_API_KEY = os.environ.get('DARK_SKY_KEY')
-if not DARK_SKY_API_KEY:
-    DARK_SKY_API_KEY = "0bdf7cf9b808dec29c52913e70c13f69"
-
 class weather_report_controller: 
 
     def __init__(self):
         self.option_list = "exclude=currently,minutely,hourly,alerts&units=si"
-    
+        self.app_config = self.read_from_file( "./configs/prod_config.json" )
+        self.DARK_SKY_API_KEY = self.app_config.get('DARK_SKY_API_KEY')
+        if not self.DARK_SKY_API_KEY:
+            logger.error(f"Unable to read Dark Sky API Configuration")
+            return
+                
+    def is_json_valid(self, data) -> bool:
+        """
+        This function checks if the given file is a valid json
+
+        :param data: The JSON data to be checked
+        :param type: dict
+
+        :return bool: Returns a boolean
+        :rtype: bool
+        """
+        try:
+            json.loads( data )
+            return True
+        except ValueError as error:
+            logger.error(f"Invalid JSON data")
+            return False
+
+    def read_from_file(self, f):
+        """
+        Reads the given file handle and returns the data.
+
+        :param f: The file object to be read from
+        :param type: file object
+
+        :return data: Returns the file data
+        :rtype: dict
+        """
+        data = None
+        # Read the file
+        try:
+            with open(f) as json_file:
+                data = json.load(json_file)
+        except Exception as e:
+            logger.error(f"Unable to read from file. ERROR:{str(e)}")
+        return data
+
     def get_location(self, input_location):
         """
         Get the lattitude and longitude for the given location
@@ -116,7 +153,7 @@ class weather_report_controller:
             report_date = (d_from_date + timedelta(days=i)).strftime('%Y-%m-%d %A')
 
             dark_sky_url = (f"https://api.darksky.net/forecast/"
-                            f"{DARK_SKY_API_KEY}/"
+                            f"{self.DARK_SKY_API_KEY}/"
                             f"{latitude},"
                             f"{longitude},"
                             f"{search_date}?"
