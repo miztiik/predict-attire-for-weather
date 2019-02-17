@@ -10,6 +10,11 @@ __author__ = 'Mystique'
 from flask import Flask, render_template, request, redirect, url_for, request
 from flask_cors import CORS
 from wr_controller import weather_report_controller
+import logging
+
+# Initialize Logger
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
 
 # app = Flask(__name__, instance_relative_config=True)
 app = Flask(__name__, static_url_path='/static')
