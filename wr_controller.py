@@ -57,7 +57,6 @@ class weather_report_controller:
         if w_r_data.get('raining_chance'):
             attire['umbrella'] = True
             attire['umbrella_emoji'] = f"An ☔ or Rain Jacket, It will 🌧️"
-
         if w_r_data.get('temp_min') >= HOT:
             attire['clothing'] = f"Minimal Outdoor exposure. Too Hot 🌡️☀️. Stay indoors 🏠🏡 or Stay Cool 🏊🏖️🍹🍨"
             attire['stay_indoor'] = True
@@ -181,7 +180,7 @@ class weather_report_controller:
             predicted_attire = self.predict_attire(w_r_data, None)
 
             # Create a model from the weather report
-            # (date, temp_max, temp_min, summary, raining_chance, sunrise, sunset, wind_speed, wind_bearing, humidity, icon)
+            # (date, temp_max, temp_min, summary, raining_chance, sunrise, sunset, wind_speed, wind_bearing, humidity, icon, predicted_attire)
             w_report = weather_report( report_date,
                                     str(w_r_data['temp_max']) + unit_type,
                                     str(w_r_data['temp_min']) + unit_type,
