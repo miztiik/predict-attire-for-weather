@@ -135,7 +135,7 @@
                     </div>  
             </label>
             <label style="width: 100%;">Your Location
-                <input type="text" id="location" name="location"required>
+                <input type="text" id="location" name="location" required placeholder="London">
             </label>
             <button class="get-weather-button" id='gtw'><span>Get the weather </span></button>
             <div class="row">
@@ -144,18 +144,13 @@
         </div>
     </div>
     <br />
-
-
-
-
-
     <script>
         $(document).ready(function () {
             //Some Defaults for quick testing
             to_day = new Date().toISOString().match(/(\d{4}\-\d{2}\-\d{2})/);
             $('input[name=date_from]').val(to_day[1]);
             document.getElementById('date_to').defaultValue = to_day[1];
-            document.getElementById("location").defaultValue = "Utrecht";
+            //document.getElementById("location").defaultValue = "London";
 
             $('#wr-dateinput .input-daterange').datepicker({
                 format: "yyyy-mm-dd",
