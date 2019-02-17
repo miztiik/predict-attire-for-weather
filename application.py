@@ -16,15 +16,14 @@ import logging
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
-# app = Flask(__name__, instance_relative_config=True)
-app = Flask(__name__, static_url_path='/static')
-CORS(app)
+application = Flask(__name__, static_url_path='/static')
+CORS(application)
 
-@app.route("/")
+@application.route("/")
 def index():
    return render_template('index.html')
 
-@app.route('/get_weather_report', methods=['POST', 'GET'])
+@application.route('/get_weather_report', methods=['POST', 'GET'])
 def get_weather_report():
     """
     Get the weather report from the controller and render them using the models.
@@ -52,4 +51,4 @@ def get_weather_report():
     return wr_template  
 
 if __name__ == '__main__':
-    app.run( debug = False,host = '0.0.0.0', port = 80 )
+    application.run( debug = False,host = '0.0.0.0', port = 80 )
