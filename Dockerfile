@@ -25,4 +25,4 @@ WORKDIR /var/predict-attire-for-weather
 # Sample cmd - `gunicorn --bind 0.0.0.0:80 wsgi:application --access-logfile - --error-logfile -`
 # Sample cmd with all stdio captured - `gunicorn --bind 0.0.0.0:80 wsgi:application --access-logfile - --error-logfile - --capture-output --enable-stdio-inheritance`
 EXPOSE 80 443
-ENTRYPOINT ["gunicorn", "--bind", "0.0.0.0", "wsgi:application", "--access-logfile", "-", "--error-logfile", "-","--capture-output", "--enable-stdio-inheritance"]
+ENTRYPOINT ["gunicorn", "--bind", "0.0.0.0:80","--bind", "0.0.0.0:443", "wsgi:application", "--access-logfile", "-", "--error-logfile", "-","--capture-output", "--enable-stdio-inheritance"]
