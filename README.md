@@ -39,5 +39,5 @@ We will use the Dark Sky Weather API to get our weather data. Based on that we w
 ## Support
 Please open a [GitHub issue](https://github.com/miztiik/predict-attire-for-weather/issues/new).
 
-## Feedback for my Repository
+## Feedback
 Please open a [GitHub issue](https://github.com/miztiik/predict-attire-for-weather/issues/new). I do encourage you to contribute your changes and send me pull request.
