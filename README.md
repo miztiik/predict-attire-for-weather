@@ -14,14 +14,14 @@ We will use the Dark Sky Weather API to get our weather data. Based on that we w
 
         In the file `src/configs/prod_config.json` update your `api key`
 
-1. ## Running the app in linux
+1. ## Run applicaion on linux Machine
     - Get the application code from GIT
         ```sh
         cd /var/predict-attire-for-weather
         gunicorn --bind 0.0.0.0:80 wsgi:application --access-logfile - --error-logfile - --capture-output --enable-stdio-inheritance
         ```
 
-1. ## Running as Docker Image
+1. ## Run as Docker Image
     Assuming you have docker host ready, Run the [Setting up the environment](#setting-up-the-environment) instructions, and then execute the below,
     ```sh
     cd /var/predict-attire-for-weather
