@@ -7,7 +7,7 @@ env:
     repo_maintainer: "https://github.com/miztiik"
     AWS_REGION: "us-east-1"
     REPO_NAME: "predict-attire-for-weather"
-    IMAGE_TAG: `date +%Y%m%d%H%M%S`
+    # IMAGE_TAG: `date +%Y%m%d%H%M%S`
     AWS_ACCOUNT_ID: "589562693537"
   # parameter-store:
   #   DARK_SKY_API_KEY: /api_keys/dark_sky/prod
@@ -16,6 +16,7 @@ phases:
 
   pre_build:
     commands:
+      - echo IMAGE_TAG=`date +%Y%m%d%H%M%S`
       - echo Logging in to Amazon ECR
       - $(aws ecr get-login --no-include-email --region ${AWS_REGION})
   build:
