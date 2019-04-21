@@ -18,8 +18,8 @@ phases:
   install:
     commands:
       - echo "Trying to install Docker"
-      - apt-get install docker
-      - service docker start
+      - apt-get install docker-ce docker-ce-cli containerd.io
+      - docker run hello-world
 
   pre_build:
     commands:
