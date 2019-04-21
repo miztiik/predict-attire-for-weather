@@ -1,0 +1,39 @@
+# Building a Docker Image using AWS CodeBuild & Pushing to ECR
+
+version: 0.2
+
+env:
+  variables:
+    repo_maintainer: "https://github.com/miztiik"
+    AWS_REGION: "us-east-1"
+    REPO_NAME: "predict-attire-for-weather"
+    IMAGE_TAG: `date +%Y%m%d%H%M%S`
+    AWS_ACCOUNT_ID: "589562693537"
+  # parameter-store:
+  #   DARK_SKY_API_KEY: /api_keys/dark_sky/prod
+
+phases:
+
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR
+      - $(aws ecr get-login --no-include-email --region ${AWS_REGION})
+  build:
+    commands:
+      - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - echo ${COMMIT_HASH:=latest}
+      - echo Start Docker image build on `date`
+      - docker build -t ${REPO_NAME}:${IMAGE_TAG} .
+      - docker tag ${REPO_NAME}:${IMAGE_TAG} ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${IMAGE_TAG}
+
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker image to ECR
+      - docker push ${ECR_URL}:latest
+      - docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${IMAGE_TAG}
+      - echo Writing definitions file...
+      - printf '[{"name":"predict-attire-for-weather","imageUri":"%s"}]' ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${IMAGE_TAG} > taskdefinition.json
+
+artifacts:
+    files: taskdefinition.json
