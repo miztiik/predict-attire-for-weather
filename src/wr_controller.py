@@ -21,7 +21,7 @@ class weather_report_controller:
 
     def __init__(self):
         self.option_list = "exclude=currently,minutely,hourly,alerts&units=si"
-        self.app_config = self.read_from_file( "./configs/prod_config.json" )
+        self.app_config = self.read_from_file( "./config/prod_config.json" )
         self.DARK_SKY_API_KEY = self.app_config.get('DARK_SKY_API_KEY')
         if not self.DARK_SKY_API_KEY:
             logger.error(f"Unable to read Dark Sky API Configuration")
