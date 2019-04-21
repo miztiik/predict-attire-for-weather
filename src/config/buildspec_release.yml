@@ -17,6 +17,7 @@ phases:
 
   pre_build:
     commands:
+      - IMAGE_TAG=`date +%Y%m%d%H%M%S`
       - echo IMAGE_TAG=`date +%Y%m%d%H%M%S`
       - echo Logging in to Amazon ECR
       - $(aws ecr get-login --no-include-email --region ${AWS_REGION})
