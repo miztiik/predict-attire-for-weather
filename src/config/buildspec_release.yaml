@@ -1,16 +1,17 @@
+---
 # Building a Docker Image using AWS CodeBuild & Pushing to ECR
 
 version: 0.2
 
 env:
   variables:
-    repo_maintainer: "https://github.com/miztiik"
+    REPO_MAINTAINER: "https://github.com/miztiik"
     AWS_REGION: "us-east-1"
     REPO_NAME: "predict-attire-for-weather"
-    # IMAGE_TAG: `date +%Y%m%d%H%M%S`
+#    # IMAGE_TAG: `date +%Y%m%d%H%M%S`
     AWS_ACCOUNT_ID: "589562693537"
-  # parameter-store:
-  #   DARK_SKY_API_KEY: /api_keys/dark_sky/prod
+#  # parameter-store:
+#  #   DARK_SKY_API_KEY: /api_keys/dark_sky/prod
 
 phases:
 
