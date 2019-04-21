@@ -20,6 +20,7 @@ phases:
       - echo IMAGE_TAG=`date +%Y%m%d%H%M%S`
       - echo Logging in to Amazon ECR
       - $(aws ecr get-login --no-include-email --region ${AWS_REGION})
+
   build:
     commands:
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
