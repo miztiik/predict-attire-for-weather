@@ -12,7 +12,7 @@ We will use the Dark Sky Weather API to get our weather data. Based on that we w
         ```
     - Update your API key
 
-        In the file `src/configs/prod_config.json` update your `api key`
+        In the file `src/config/prod_config.json` update your `api key`
 
 1. ## Run applicaion on linux Machine
     - Get the application code from GIT
