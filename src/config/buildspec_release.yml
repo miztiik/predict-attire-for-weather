@@ -35,7 +35,6 @@ phases:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker image to ECR
-      - docker push ${ECR_URL}:latest
       - docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${IMAGE_TAG}
       - echo Writing definitions file...
       - printf '[{"name":"predict-attire-for-weather","imageUri":"%s"}]' ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}:${IMAGE_TAG} > taskdefinition.json
