@@ -1,7 +1,7 @@
 ##################################################################################
 ## 
 ## DESCRIPTION  :	Dockerfile to build python web-app to predict attire for given location based on weather
-## DATE			:	21-04-2019
+## DATE			:	2019-04-21
 ##
 ## PURPOSE      :   Recommend attire based on weather
 ## USAGE			
