@@ -27,7 +27,7 @@ phases:
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - echo ${CODEBUILD_RESOLVED_SOURCE_VERSION}
       - echo ${COMMIT_HASH:=latest}
-      - systemctl start docker
+      - service docker start
       - echo Start Docker image build on `date`
       - docker build -t ${REPO_NAME}:${IMAGE_TAG} .
       - docker tag ${REPO_NAME}:${IMAGE_TAG} ${AWS_ACCOUNT_ID}.dkr.ecr.${REPO_REGION}.amazonaws.com/${REPO_NAME}:${IMAGE_TAG}
