@@ -1,5 +1,7 @@
 ---
 # Building a Docker Image using AWS CodeBuild & Pushing to ECR
+# Ref: https://docs.aws.amazon.com/codebuild/latest/userguide/sample-docker.html
+# Use Image: aws/codebuild/standard:1.0
 
 version: 0.2
 
@@ -8,7 +10,7 @@ env:
     REPO_MAINTAINER: "https://github.com/miztiik"
     REPO_REGION: "us-east-1"
     REPO_NAME: "predict-attire-for-weather"
-#    # IMAGE_TAG: `date +%Y%m%d%H%M%S`
+    IMAGE_TAG: `date +%Y%m%d%H%M%S`
     AWS_ACCOUNT_ID: "589562693537"
 #  # parameter-store:
 #  #   DARK_SKY_API_KEY: /api_keys/dark_sky/prod
@@ -17,11 +19,10 @@ phases:
 
   install:
     commands:
-      - echo "Trying to install Docker"
+      - echo "If anything is to be installed before build, We will do it here"
 
   pre_build:
     commands:
-      - IMAGE_TAG=`date +%Y%m%d%H%M%S`
       - echo IMAGE_TAG=`date +%Y%m%d%H%M%S`
       - echo Logging in to Amazon ECR
       - $(aws ecr get-login --no-include-email --region ${REPO_REGION})
