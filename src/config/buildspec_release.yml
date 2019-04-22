@@ -31,7 +31,7 @@ phases:
       - echo ${CODEBUILD_RESOLVED_SOURCE_VERSION}
       - echo ${COMMIT_HASH:=latest}
       - IMAGE_TAG="${COMMIT_HASH:=latest}-$(date +%Y%m%d%H%M%S)"
-      - echo ${IMAGE_TAG}
+      - echo The docker image tag will be, ${IMAGE_TAG}
       - echo Start Docker image build on `date`
       - docker build -t ${REPO_NAME}:${IMAGE_TAG} .
       - docker tag ${REPO_NAME}:${IMAGE_TAG} ${AWS_ACCOUNT_ID}.dkr.ecr.${REPO_REGION}.amazonaws.com/${REPO_NAME}:${IMAGE_TAG}
