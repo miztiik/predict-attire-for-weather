@@ -1,6 +1,8 @@
 # Predict Attire for Weather
 We will use the Dark Sky Weather API to get our weather data. Based on that we will make a prediction on what the attire should for a comfortable outdoor activity.
 
+![AWS CodeBuild Status](https://codebuild.us-east-1.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoiRFVlZ3dVNWVDeit5Y3ZVUGNEQUg5Y0ZxK0hDWHdGVEF1Z3dqaHpjdzE0NXpERmlaNXNHYVdIODQxYXBtN29RTk9HQzJ0WlJXRG5OandKcU5xMlNJMW9rPSIsIml2UGFyYW1ldGVyU3BlYyI6IjZIWS95ZmdTUWNKcWNSZS8iLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=master)
+
 0. ## Get DarkSky API Key
     - Get your own [DarkSkey API Key](https://darksky.net/dev)
 
