@@ -7,4 +7,5 @@ Jinja2>=2.10.1
 python-dateutil==2.7.5
 pytz==2018.9
 requests==2.21.0
-Werkzeug==0.14.1
+Werkzeug==0.15.3
+
