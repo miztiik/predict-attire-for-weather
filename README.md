@@ -12,7 +12,7 @@ We will use the Dark Sky Weather API to get our weather data. Based on that we w
 
     - Get the application code
 
-        ```sh
+        ```bash
         yum -y install git
         git clone https://github.com/miztiik/predict-attire-for-weather.git
         ```
@@ -25,7 +25,7 @@ We will use the Dark Sky Weather API to get our weather data. Based on that we w
 
     - Get the application code from git (_from the previous step_)
 
-        ```sh
+        ```bash
         cd /var/predict-attire-for-weather
         gunicorn --bind 0.0.0.0:80 wsgi:application --access-logfile - --error-logfile - --capture-output --enable-stdio-inheritance
         ```
@@ -34,7 +34,7 @@ We will use the Dark Sky Weather API to get our weather data. Based on that we w
 
     Assuming you have docker host ready, Run the [Setting up the environment](#setting-up-the-environment) instructions, and then execute the below,
 
-    ```sh
+    ```bash
     cd /var/predict-attire-for-weather
     ### Build the image
     docker build --tag="predict-attire-for-weather" .
@@ -46,12 +46,18 @@ We will use the Dark Sky Weather API to get our weather data. Based on that we w
 1. ## Test the app
 
     Access the linux server IP/Docker Host IP in your browser, you should be seeing something like this,
-    ![Predict Attire for Weather](https://raw.githubusercontent.com/miztiik/predict-attire-for-weather/master/images/predict-attire-for-weather.png)
+    ![Predict Attire for Weather](images/predict-attire-for-weather.png)
 
-## Support
+## Buy me a coffee
 
-Please open a [GitHub issue](https://github.com/miztiik/predict-attire-for-weather/issues/new).
+Buy me a coffee ☕ through [Paypal](https://paypal.me/valaxy), _or_ You can reach out to get more details through [here](https://youtube.com/c/valaxytechnologies/about).
 
-## Feedback for my repo
+### References
 
-Please open a [GitHub issue](https://github.com/miztiik/predict-attire-for-weather/issues/new). I do encourage you to contribute your changes and send me pull request.
+1. [Source Repo](https://github.com/miztiik/predict-attire-for-weather)
+
+1. [Docker Hub](https://hub.docker.com/r/mystique/predict-attire-for-weather)
+
+### Metadata
+
+**Level**: 300
